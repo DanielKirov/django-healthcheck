@@ -1,13 +1,11 @@
 import json
 from os import environ
-import requests
 
 from django.http import HttpResponse
 from django.conf import settings
 from django.db import connections
 from django.contrib.sites.models import Site
 
-from django.test.client import Client
 import newrelic.agent
 
 
@@ -53,6 +51,7 @@ def healthcheckview(request):
             statuses['Redis'] = 'NOT OK'
 
     if settings.HEALTHCHECK_HOMEPAGE:
+        import requests
         current_domain = Site.objects.get_current().domain
         try:
             response = requests.get("http://" + current_domain)
